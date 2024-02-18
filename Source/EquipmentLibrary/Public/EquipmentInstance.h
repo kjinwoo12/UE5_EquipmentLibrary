@@ -28,7 +28,7 @@ struct EQUIPMENTLIBRARY_API FEquipmentActorSpawnOrder
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class EQUIPMENTLIBRARY_API UEquipmentInstance : public UObject
 {
 	GENERATED_BODY()
@@ -55,7 +55,6 @@ private:
 	TArray<TObjectPtr<UAttributeSet>> GameplayAttributeInstances;
 
 public:
-	void BeginDestroy() override;
 
 	UFUNCTION(BlueprintCallable, Category=EquipmentLibrary)
 	void SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTargetMesh);

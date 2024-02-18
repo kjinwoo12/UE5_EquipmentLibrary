@@ -8,11 +8,6 @@
 
 DEFINE_LOG_CATEGORY(LogEquipmentInstance);
 
-void UEquipmentInstance::BeginDestroy()
-{
-	DestroyEquipmentActors();
-}
-
 void UEquipmentInstance::SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTargetMesh)
 {
 	for(FEquipmentActorSpawnOrder Order : SpawningActorOrders)

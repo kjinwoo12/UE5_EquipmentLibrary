@@ -10,7 +10,7 @@ EQUIPMENTLIBRARY_API DECLARE_LOG_CATEGORY_EXTERN(LogEquipmentComponent, Log, All
 
 class UEquipmentInstance;
 
-UCLASS()
+UCLASS(Blueprintable)
 class EQUIPMENTLIBRARY_API UEquipmentComponent : public UActorComponent
 {
 	GENERATED_BODY()
