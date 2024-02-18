@@ -10,7 +10,7 @@ EQUIPMENTLIBRARY_API DECLARE_LOG_CATEGORY_EXTERN(LogEquipmentComponent, Log, All
 
 class UEquipmentInstance;
 
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, BlueprintType, meta=(BlueprintSpawnableComponent))
 class EQUIPMENTLIBRARY_API UEquipmentComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -19,7 +19,7 @@ private:
 	TObjectPtr<UEquipmentInstance> PrimaryEquipmentInstance;
 
 public:
-	UPROPERTY(BLueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	USkeletalMeshComponent* TargetMesh = nullptr;
 
 public:	
