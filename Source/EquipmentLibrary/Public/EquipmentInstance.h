@@ -28,7 +28,7 @@ struct EQUIPMENTLIBRARY_API FEquipmentActorSpawnOrder
 /**
  * 
  */
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, BlueprintType)
 class EQUIPMENTLIBRARY_API UEquipmentInstance : public UObject
 {
 	GENERATED_BODY()
@@ -36,6 +36,9 @@ class EQUIPMENTLIBRARY_API UEquipmentInstance : public UObject
 public:
 	UPROPERTY(EditDefaultsOnly, Category="Visual")
 	TArray<FEquipmentActorSpawnOrder> SpawningActorOrders;
+
+private:
+	TArray<TObjectPtr<AActor>> SpawnedEquipmentActors;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay Abilities")
@@ -48,18 +51,13 @@ protected:
 	TArray<FEquipmentGameplayAttributeSet> GameplayAttributes;
 
 private:
-	TArray<TObjectPtr<AActor>> SpawnedEquipmentActors;
-
 	TArray<FGameplayAbilitySpecHandle> GameplayAbilitySpecHandles;
 	TArray<FActiveGameplayEffectHandle> GameplayEffectHandles;
 	TArray<TObjectPtr<UAttributeSet>> GameplayAttributeInstances;
 
 public:
-
-	UFUNCTION(BlueprintCallable, Category=EquipmentLibrary)
 	void SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTargetMesh);
 
-	UFUNCTION(BlueprintCallable, Category=EquipmentLibrary)
 	void DestroyEquipmentActors();
 
 	void GiveAbilitySystemTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject);
@@ -74,4 +72,11 @@ private:
 
 	void GiveAttributeTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject);
 	void TakeAttributeFrom(UAbilitySystemComponent* AbilitySystemComponent);
+
+public:
+	UFUNCTION(BlueprintNativeEvent)
+	void OnEquipped();
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnUnequipped();
 };

@@ -173,3 +173,13 @@ void UEquipmentInstance::TakeAttributeFrom(UAbilitySystemComponent* AbilitySyste
 	}
 	GameplayAttributeInstances.Reset();
 }
+
+void UEquipmentInstance::OnEquipped_Implementation()
+{
+
+}
+
+void UEquipmentInstance::OnUnequipped_Implementation()
+{
+
+}

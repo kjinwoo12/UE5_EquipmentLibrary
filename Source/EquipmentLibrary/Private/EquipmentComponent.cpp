@@ -30,6 +30,7 @@ UEquipmentInstance* UEquipmentComponent::Equip(UEquipmentInstance* EquipmentInst
 
 	PrimaryEquipmentInstance = EquipmentInstance;
 	PrimaryEquipmentInstance->SpawnEquipmentActorsTo(TargetMesh);
+	PrimaryEquipmentInstance->OnEquipped();
 	return PrimaryEquipmentInstance;
 }
 
@@ -41,5 +42,6 @@ UEquipmentInstance* UEquipmentComponent::UnEquip()
 		RemovedInstance->DestroyEquipmentActors();
 		PrimaryEquipmentInstance = nullptr;
 	}
+	RemovedInstance->OnUnequipped();
 	return RemovedInstance;
 }
