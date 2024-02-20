@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "AbilitySystemComponent.h"
 #include "EquipmentComponent.generated.h"
 
 EQUIPMENTLIBRARY_API DECLARE_LOG_CATEGORY_EXTERN(LogEquipmentComponent, Log, All);
@@ -17,14 +18,17 @@ class EQUIPMENTLIBRARY_API UEquipmentComponent : public UActorComponent
 private:
 	UPROPERTY(Replicated)
 	TObjectPtr<UEquipmentInstance> PrimaryEquipmentInstance;
+	
+	USkeletalMeshComponent* Mesh = nullptr;
 
-public:
-	UPROPERTY(BlueprintReadWrite)
-	USkeletalMeshComponent* TargetMesh = nullptr;
+	UAbilitySystemComponent* AbilitySystemComponent = nullptr;
 
 public:	
 	// Sets default values for this component's properties
 	UEquipmentComponent();
+
+	UFUNCTION(BlueprintCallable)
+	void Initialize(USkeletalMeshComponent* TargetMesh, UAbilitySystemComponent* TargetAbilitySystemComponent);
 
 	UFUNCTION(BlueprintCallable)
 	UEquipmentInstance* Equip(UEquipmentInstance* EquipmentInstance);

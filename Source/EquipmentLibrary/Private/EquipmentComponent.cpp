@@ -19,29 +19,36 @@ void UEquipmentComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME(ThisClass, PrimaryEquipmentInstance);
 }
 
+void UEquipmentComponent::Initialize(USkeletalMeshComponent* TargetMesh, UAbilitySystemComponent* TargetAbilitySystemComponent)
+{
+	Mesh = TargetMesh;
+	AbilitySystemComponent = TargetAbilitySystemComponent;
+}
+
 UEquipmentInstance* UEquipmentComponent::Equip(UEquipmentInstance* EquipmentInstance)
 {
-	if(TargetMesh == nullptr)
-	{
-		UE_LOG(LogEquipmentComponent, Warning, TEXT("TargetMesh is nullptr"));
-		return nullptr;
-	}
 	UnEquip();
-
 	PrimaryEquipmentInstance = EquipmentInstance;
-	PrimaryEquipmentInstance->SpawnEquipmentActorsTo(TargetMesh);
+	if(Mesh != nullptr)
+	{
+		PrimaryEquipmentInstance->SpawnEquipmentActorsTo(Mesh);
+	}
+	if(AbilitySystemComponent != nullptr)
+	{
+		PrimaryEquipmentInstance->GiveAbilitySystemTo(AbilitySystemComponent, GetOwner());
+	}
 	PrimaryEquipmentInstance->OnEquipped();
 	return PrimaryEquipmentInstance;
 }
 
 UEquipmentInstance* UEquipmentComponent::UnEquip()
-{
+{	
 	UEquipmentInstance* RemovedInstance = PrimaryEquipmentInstance;
 	if(RemovedInstance != nullptr)
 	{
 		RemovedInstance->DestroyEquipmentActors();
 		PrimaryEquipmentInstance = nullptr;
+		RemovedInstance->OnUnequipped();
 	}
-	RemovedInstance->OnUnequipped();
 	return RemovedInstance;
 }

@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "EquipmentGameplayAbilitySet.h"
-#include "EquipmentGameplayEffectSet.h"
-#include "EquipmentGameplayAttributeSet.h"
 #include "EquipmentInstance.generated.h"
 
-EQUIPMENTLIBRARY_API DECLARE_LOG_CATEGORY_EXTERN(LogEquipmentInstance, Log, All);
+class UEquipmentAbilitySystemManager;
+struct FEquipmentGameplayAbilitySet;
+struct FEquipmentGameplayEffectSet;
+struct FEquipmentGameplayAttributeSet;
 
 USTRUCT()
 struct EQUIPMENTLIBRARY_API FEquipmentActorSpawnOrder
@@ -37,8 +37,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Visual")
 	TArray<FEquipmentActorSpawnOrder> SpawningActorOrders;
 
-private:
-	TArray<TObjectPtr<AActor>> SpawnedEquipmentActors;
+	UPROPERTY()
+	UEquipmentAbilitySystemManager* EquipmentAbilitySystemManager;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay Abilities")
@@ -51,29 +51,17 @@ protected:
 	TArray<FEquipmentGameplayAttributeSet> GameplayAttributes;
 
 private:
-	TArray<FGameplayAbilitySpecHandle> GameplayAbilitySpecHandles;
-	TArray<FActiveGameplayEffectHandle> GameplayEffectHandles;
-	TArray<TObjectPtr<UAttributeSet>> GameplayAttributeInstances;
+	TArray<TObjectPtr<AActor>> SpawnedEquipmentActors;
 
 public:
-	void SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTargetMesh);
+	UEquipmentInstance();
 
+	void SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTargetMesh);
 	void DestroyEquipmentActors();
 
 	void GiveAbilitySystemTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject);
 	void TakeAbilitySystemFrom(UAbilitySystemComponent* AbilitySystemComponent);
 
-private:
-	void GiveAbilityTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject);
-	void TakeAbilityFrom(UAbilitySystemComponent* AbilitySystemComponent);
-
-	void GiveEffectTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject);
-	void TakeEffectFrom(UAbilitySystemComponent* AbilitySystemComponent);
-
-	void GiveAttributeTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject);
-	void TakeAttributeFrom(UAbilitySystemComponent* AbilitySystemComponent);
-
-public:
 	UFUNCTION(BlueprintNativeEvent)
 	void OnEquipped();
 
