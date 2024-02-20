@@ -7,10 +7,10 @@
 #include "EquipmentGameplayAbilitySet.generated.h"
 
 USTRUCT(BlueprintType)
-struct EQUIPMENTLIBRARY_API FEquipmentGameplayAbilitySet
+struct FEquipmentGameplayAbilitySet
 {
 	GENERATED_BODY()
-public:
+
 	// Gameplay ability to grant.
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayAbility> Ability = nullptr;

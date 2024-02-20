@@ -7,11 +7,10 @@
 #include "EquipmentGameplayAttributeSet.generated.h"
 
 USTRUCT(BlueprintType)
-struct EQUIPMENTLIBRARY_API FEquipmentGameplayAttributeSet
+struct FEquipmentGameplayAttributeSet
 {
 	GENERATED_BODY()
 
-public:
 	// Gameplay effect to grant.
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UAttributeSet> AttributeSet;

@@ -8,11 +8,9 @@
 
 
 USTRUCT(BlueprintType)
-struct EQUIPMENTLIBRARY_API FEquipmentGameplayEffectSet
+struct FEquipmentGameplayEffectSet
 {
 	GENERATED_BODY()
-
-public:
 
 	// Gameplay effect to grant.
 	UPROPERTY(EditDefaultsOnly)
