@@ -52,7 +52,7 @@ void UEquipmentInstance::TakeAbilitySystemFrom(UAbilitySystemComponent* AbilityS
 	EquipmentAbilitySystemManager->TakeAttributeFrom(AbilitySystemComponent);
 }
 
-void UEquipmentInstance::OnEquipped_Implementation()
+void UEquipmentInstance::OnEquipped_Implementation(UEquipmentComponent* EquipmentComponent)
 {
 
 }

@@ -19,10 +19,13 @@ void UEquipmentComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME(ThisClass, PrimaryEquipmentInstance);
 }
 
-void UEquipmentComponent::Initialize(USkeletalMeshComponent* TargetMesh, UAbilitySystemComponent* TargetAbilitySystemComponent)
+void UEquipmentComponent::Initialize(USkeletalMeshComponent* TargetMesh, 
+									 UAbilitySystemComponent* TargetAbilitySystemComponent, 
+									 FGameplayTagContainer ParentGameplayTagContainer)
 {
 	Mesh = TargetMesh;
 	AbilitySystemComponent = TargetAbilitySystemComponent;
+	GameplayTagContainer = ParentGameplayTagContainer;
 }
 
 UEquipmentInstance* UEquipmentComponent::Equip(UEquipmentInstance* EquipmentInstance)
@@ -37,7 +40,7 @@ UEquipmentInstance* UEquipmentComponent::Equip(UEquipmentInstance* EquipmentInst
 	{
 		PrimaryEquipmentInstance->GiveAbilitySystemTo(AbilitySystemComponent, GetOwner());
 	}
-	PrimaryEquipmentInstance->OnEquipped();
+	PrimaryEquipmentInstance->OnEquipped(this);
 	return PrimaryEquipmentInstance;
 }
 

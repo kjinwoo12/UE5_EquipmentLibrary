@@ -63,7 +63,7 @@ public:
 	void TakeAbilitySystemFrom(UAbilitySystemComponent* AbilitySystemComponent);
 
 	UFUNCTION(BlueprintNativeEvent)
-	void OnEquipped();
+	void OnEquipped(UEquipmentComponent* EquipmentComponent);
 
 	UFUNCTION(BlueprintNativeEvent)
 	void OnUnequipped();

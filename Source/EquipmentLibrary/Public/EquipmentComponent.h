@@ -15,6 +15,10 @@ UCLASS(Blueprintable, BlueprintType, meta=(BlueprintSpawnableComponent))
 class EQUIPMENTLIBRARY_API UEquipmentComponent : public UActorComponent
 {
 	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayTagContainer GameplayTagContainer;
+
 private:
 	UPROPERTY(Replicated)
 	TObjectPtr<UEquipmentInstance> PrimaryEquipmentInstance;
@@ -28,7 +32,9 @@ public:
 	UEquipmentComponent();
 
 	UFUNCTION(BlueprintCallable)
-	void Initialize(USkeletalMeshComponent* TargetMesh, UAbilitySystemComponent* TargetAbilitySystemComponent);
+	void Initialize(USkeletalMeshComponent* TargetMesh, 
+					UAbilitySystemComponent* TargetAbilitySystemComponent, 
+					FGameplayTagContainer ParentGameplayTagContainer);
 
 	UFUNCTION(BlueprintCallable)
 	UEquipmentInstance* Equip(UEquipmentInstance* EquipmentInstance);
