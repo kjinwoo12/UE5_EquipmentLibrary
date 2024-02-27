@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "EquipmentInstance.generated.h"
 
+class UAbilitySystemComponent;
 class UEquipmentAbilitySystemManager;
 struct FEquipmentGameplayAbilitySet;
 struct FEquipmentGameplayEffectSet;
@@ -62,9 +63,12 @@ public:
 	void GiveAbilitySystemTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject);
 	void TakeAbilitySystemFrom(UAbilitySystemComponent* AbilitySystemComponent);
 
-	UFUNCTION(BlueprintNativeEvent)
-	void OnEquipped(UEquipmentComponent* EquipmentComponent);
+	virtual void OnEquipped(UEquipmentComponent* EquipmentComponent);
+	virtual void OnUnequipped();
 
 	UFUNCTION(BlueprintNativeEvent)
-	void OnUnequipped();
+	void OnEquippedEvent(UEquipmentComponent* EquipmentComponent);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnUnequippedEvent();
 };
