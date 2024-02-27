@@ -24,7 +24,10 @@ void UEquipmentInstance::SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTa
 		SpawnedActor->SetActorRelativeTransform(Order.AttachTransform);
 		SpawnedActor->AttachToComponent(AttachTargetMesh, FAttachmentTransformRules::KeepRelativeTransform, Order.AttachSocket);
 		SpawnedEquipmentActors.Add(SpawnedActor);
-		IEquipmentActorEvent::Execute_OnEquipped(SpawnedActor);
+		if(SpawnedActor->GetClass()->ImplementsInterface(UEquipmentActorEvent::StaticClass()))
+		{
+			IEquipmentActorEvent::Execute_OnEquippedEvent(SpawnedActor);
+		}
 	}
 }
 
@@ -32,7 +35,10 @@ void UEquipmentInstance::DestroyEquipmentActors()
 {
 	for(TObjectPtr<AActor> SpawnedActor : SpawnedEquipmentActors)
 	{
-		IEquipmentActorEvent::Execute_OnUnequipped(SpawnedActor);
+		if(SpawnedActor->GetClass()->ImplementsInterface(UEquipmentActorEvent::StaticClass()))
+		{
+			IEquipmentActorEvent::Execute_OnUnequippedEvent(SpawnedActor);
+		}
 		SpawnedEquipmentActors.Remove(SpawnedActor);
 		SpawnedActor->Destroy();
 	}

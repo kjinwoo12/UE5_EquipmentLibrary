@@ -50,6 +50,7 @@ UEquipmentInstance* UEquipmentComponent::UnEquip()
 	if(RemovedInstance != nullptr)
 	{
 		RemovedInstance->DestroyEquipmentActors();
+		RemovedInstance->TakeAbilitySystemFrom(AbilitySystemComponent);
 		PrimaryEquipmentInstance = nullptr;
 		RemovedInstance->OnUnequipped();
 	}
