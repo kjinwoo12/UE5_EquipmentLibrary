@@ -19,11 +19,12 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayTagContainer GameplayTagContainer;
 
+	UPROPERTY(BlueprintReadOnly)
+	USkeletalMeshComponent* Mesh = nullptr;
+
 private:
 	UPROPERTY(Replicated)
 	TObjectPtr<UEquipmentInstance> PrimaryEquipmentInstance;
-	
-	USkeletalMeshComponent* Mesh = nullptr;
 
 	UAbilitySystemComponent* AbilitySystemComponent = nullptr;
 
