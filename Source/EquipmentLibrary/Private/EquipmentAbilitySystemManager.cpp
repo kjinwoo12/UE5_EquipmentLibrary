@@ -102,6 +102,12 @@ void UEquipmentAbilitySystemManager::TakeEffectFrom(UAbilitySystemComponent* Abi
 
 void UEquipmentAbilitySystemManager::GiveAttributeTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject, TArray<FEquipmentGameplayAttributeSet> GameplayAttributes)
 {
+	check(AbilitySystemComponent);
+	if(!AbilitySystemComponent->IsOwnerActorAuthoritative())
+	{
+		return;
+	}
+
 	for(int32 AttributeIndex = 0; AttributeIndex < GameplayAttributes.Num(); ++AttributeIndex)
 	{
 		const FEquipmentGameplayAttributeSet& GameplayAttribute = GameplayAttributes[AttributeIndex];
@@ -124,6 +130,12 @@ void UEquipmentAbilitySystemManager::GiveAttributeTo(UAbilitySystemComponent* Ab
 
 void UEquipmentAbilitySystemManager::TakeAttributeFrom(UAbilitySystemComponent* AbilitySystemComponent)
 {
+	check(AbilitySystemComponent);
+	if(!AbilitySystemComponent->IsOwnerActorAuthoritative())
+	{
+		return;
+	}
+
 	for(UAttributeSet* AttributeInstance : GameplayAttributeInstances)
 	{
 		AbilitySystemComponent->RemoveSpawnedAttribute(AttributeInstance);

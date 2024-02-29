@@ -21,9 +21,14 @@ class EQUIPMENTLIBRARY_API UEquipmentAbilitySystemManager : public UObject
 	GENERATED_BODY()
 
 private:
+	UPROPERTY()
 	TArray<FGameplayAbilitySpecHandle> GameplayAbilitySpecHandles;
+
+	UPROPERTY()
 	TArray<FActiveGameplayEffectHandle> GameplayEffectHandles;
-	TArray<TObjectPtr<UAttributeSet>> GameplayAttributeInstances;
+
+	UPROPERTY()
+	TArray<UAttributeSet*> GameplayAttributeInstances;
 
 public:
 	void GiveAbilityTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject, TArray<FEquipmentGameplayAbilitySet> GameplayAbilities);
