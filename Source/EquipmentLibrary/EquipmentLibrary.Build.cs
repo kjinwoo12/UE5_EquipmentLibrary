@@ -41,6 +41,7 @@ public class EquipmentLibrary : ModuleRules
                 "GameplayAbilities",
                 "GameplayTags",
                 "GameplayTasks",
+				"ModularGameplay",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

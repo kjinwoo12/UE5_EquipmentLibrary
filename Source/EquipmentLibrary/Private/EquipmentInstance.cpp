@@ -11,10 +11,24 @@ UEquipmentInstance::UEquipmentInstance()
 	EquipmentAbilitySystemManager = NewObject<UEquipmentAbilitySystemManager>();
 }
 
-void UEquipmentInstance::SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTargetMesh)
+void UEquipmentInstance::SpawnDisplayedActorsTo(USkeletalMeshComponent* AttachTargetMesh)
 {
-	for(FEquipmentActorSpawnOrder Order : SpawningActorOrders)
+	for(FEquipmentActorAttachmentOrder Order : EquipmentActorAttachmentOrders)
 	{
+		bool bHasAllRequiredMeshComponentTag = true;
+		for(FName RequiredMeshComponentTag : Order.RequiredMeshComponentTags)
+		{
+			if(!AttachTargetMesh->ComponentHasTag(RequiredMeshComponentTag))
+			{
+				bHasAllRequiredMeshComponentTag = false;
+				break;
+			}
+		}
+		if(!bHasAllRequiredMeshComponentTag)
+		{
+			continue;
+		}
+
 		AActor* SpawnedActor = GetWorld()->SpawnActorDeferred<AActor>(
 			Order.EquipmentActorClass,
 			FTransform::Identity, 
@@ -31,7 +45,7 @@ void UEquipmentInstance::SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTa
 	}
 }
 
-void UEquipmentInstance::DestroyEquipmentActors()
+void UEquipmentInstance::DestroyDisplayedActors()
 {
 	for(TObjectPtr<AActor> SpawnedActor : SpawnedEquipmentActors)
 	{

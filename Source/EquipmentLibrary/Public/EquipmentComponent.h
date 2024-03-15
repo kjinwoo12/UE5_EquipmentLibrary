@@ -20,7 +20,7 @@ public:
 	FGameplayTagContainer GameplayTagContainer;
 
 	UPROPERTY(BlueprintReadOnly)
-	USkeletalMeshComponent* Mesh = nullptr;
+	TArray<USkeletalMeshComponent*> Meshes;
 
 private:
 	UPROPERTY(Replicated)
@@ -33,7 +33,7 @@ public:
 	UEquipmentComponent();
 
 	UFUNCTION(BlueprintCallable)
-	void Initialize(USkeletalMeshComponent* TargetMesh, 
+	void Initialize(TArray<USkeletalMeshComponent*> TargetMeshes, 
 					UAbilitySystemComponent* TargetAbilitySystemComponent, 
 					FGameplayTagContainer ParentGameplayTagContainer);
 
@@ -42,4 +42,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UEquipmentInstance* UnEquip();
+
+	UFUNCTION(Blueprintcallable)
+	UEquipmentInstance* GetPrimaryEquipmentInstance();
 };

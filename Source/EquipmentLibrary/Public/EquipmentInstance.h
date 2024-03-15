@@ -12,18 +12,21 @@ struct FEquipmentGameplayEffectSet;
 struct FEquipmentGameplayAttributeSet;
 
 USTRUCT()
-struct EQUIPMENTLIBRARY_API FEquipmentActorSpawnOrder
+struct FEquipmentActorAttachmentOrder
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = Equipment)
+	UPROPERTY(EditDefaultsOnly, Category = "Equipment")
 	TSubclassOf<AActor> EquipmentActorClass;
 
-	UPROPERTY(EditAnywhere, Category = Equipment)
+	UPROPERTY(EditDefaultsOnly, Category = "Equipment")
 	FName AttachSocket;
 
-	UPROPERTY(EditAnywhere, Category = Equipment)
+	UPROPERTY(EditDefaultsOnly, Category = "Equipment")
 	FTransform AttachTransform;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Equipment")
+	TArray<FName> RequiredMeshComponentTags;
 };
 
 /**
@@ -36,7 +39,7 @@ class EQUIPMENTLIBRARY_API UEquipmentInstance : public UObject
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category="Visual")
-	TArray<FEquipmentActorSpawnOrder> SpawningActorOrders;
+	TArray<FEquipmentActorAttachmentOrder> EquipmentActorAttachmentOrders;
 
 	UPROPERTY()
 	UEquipmentAbilitySystemManager* EquipmentAbilitySystemManager;
@@ -57,8 +60,8 @@ private:
 public:
 	UEquipmentInstance();
 
-	void SpawnEquipmentActorsTo(USkeletalMeshComponent* AttachTargetMesh);
-	void DestroyEquipmentActors();
+	void SpawnDisplayedActorsTo(USkeletalMeshComponent* AttachTargetMesh);
+	void DestroyDisplayedActors();
 
 	void GiveAbilitySystemTo(UAbilitySystemComponent* AbilitySystemComponent, UObject* SourceObject);
 	void TakeAbilitySystemFrom(UAbilitySystemComponent* AbilitySystemComponent);

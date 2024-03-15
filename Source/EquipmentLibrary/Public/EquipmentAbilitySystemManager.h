@@ -10,8 +10,6 @@
 
 EQUIPMENTLIBRARY_API DECLARE_LOG_CATEGORY_EXTERN(LogEquipmentAbilitySystemManager, Log, All);
 
-
-
 /**
  * 
  */
