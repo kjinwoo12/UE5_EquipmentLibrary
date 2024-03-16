@@ -33,7 +33,7 @@ public:
 	UEquipmentComponent();
 
 	UFUNCTION(BlueprintCallable)
-	void Initialize(TArray<USkeletalMeshComponent*> TargetMeshes, 
+	void Initialize(const TArray<USkeletalMeshComponent*>& TargetMeshes, 
 					UAbilitySystemComponent* TargetAbilitySystemComponent, 
 					FGameplayTagContainer ParentGameplayTagContainer);
 

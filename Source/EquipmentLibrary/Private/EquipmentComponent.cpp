@@ -19,7 +19,7 @@ void UEquipmentComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME(ThisClass, PrimaryEquipmentInstance);
 }
 
-void UEquipmentComponent::Initialize(TArray<USkeletalMeshComponent*> TargetMesh,
+void UEquipmentComponent::Initialize(const TArray<USkeletalMeshComponent*>& TargetMesh,
 									 UAbilitySystemComponent* TargetAbilitySystemComponent, 
 									 FGameplayTagContainer ParentGameplayTagContainer)
 {

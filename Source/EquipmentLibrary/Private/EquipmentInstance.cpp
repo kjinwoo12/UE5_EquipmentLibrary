@@ -36,6 +36,11 @@ void UEquipmentInstance::SpawnDisplayedActorsTo(USkeletalMeshComponent* AttachTa
 		);
 		SpawnedActor->FinishSpawning(FTransform::Identity, /*bIsDefaultTransform=*/ true);
 		SpawnedActor->SetActorRelativeTransform(Order.AttachTransform);
+		if(UPrimitiveComponent* PrimitiveComponent = SpawnedActor->GetComponentByClass<UPrimitiveComponent>())
+		{
+			PrimitiveComponent->SetOnlyOwnerSee(AttachTargetMesh->bOnlyOwnerSee);
+			PrimitiveComponent->SetOwnerNoSee(AttachTargetMesh->bOwnerNoSee);
+		}
 		SpawnedActor->AttachToComponent(AttachTargetMesh, FAttachmentTransformRules::KeepRelativeTransform, Order.AttachSocket);
 		SpawnedEquipmentActors.Add(SpawnedActor);
 		if(SpawnedActor->GetClass()->ImplementsInterface(UEquipmentActorEvent::StaticClass()))
