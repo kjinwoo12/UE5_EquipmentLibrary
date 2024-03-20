@@ -16,11 +16,8 @@ class EQUIPMENTLIBRARY_API UEquipmentComponent : public UActorComponent
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayTagContainer GameplayTagContainer;
-
-	UPROPERTY(BlueprintReadOnly)
-	TArray<USkeletalMeshComponent*> Meshes;
 
 private:
 	UPROPERTY(Replicated)
@@ -32,10 +29,7 @@ public:
 	// Sets default values for this component's properties
 	UEquipmentComponent();
 
-	UFUNCTION(BlueprintCallable)
-	void Initialize(const TArray<USkeletalMeshComponent*>& TargetMeshes, 
-					UAbilitySystemComponent* TargetAbilitySystemComponent, 
-					FGameplayTagContainer ParentGameplayTagContainer);
+	void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
 	UEquipmentInstance* Equip(UEquipmentInstance* EquipmentInstance);

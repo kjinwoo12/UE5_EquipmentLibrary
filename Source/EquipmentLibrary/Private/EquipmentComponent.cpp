@@ -19,22 +19,29 @@ void UEquipmentComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME(ThisClass, PrimaryEquipmentInstance);
 }
 
-void UEquipmentComponent::Initialize(const TArray<USkeletalMeshComponent*>& TargetMesh,
-									 UAbilitySystemComponent* TargetAbilitySystemComponent, 
-									 FGameplayTagContainer ParentGameplayTagContainer)
+
+void UEquipmentComponent::BeginPlay()
 {
-	Meshes = TargetMesh;
-	AbilitySystemComponent = TargetAbilitySystemComponent;
-	GameplayTagContainer = ParentGameplayTagContainer;
+	AActor* OwningActor = Cast<AActor>(GetOuter());
+	if(OwningActor)
+	{
+		AbilitySystemComponent = OwningActor->GetComponentByClass<UAbilitySystemComponent>();
+	}
 }
 
 UEquipmentInstance* UEquipmentComponent::Equip(UEquipmentInstance* EquipmentInstance)
 {
 	UnEquip();
 	PrimaryEquipmentInstance = EquipmentInstance;
-	for(USkeletalMeshComponent* Mesh : Meshes)
+
+	AActor* OwningActor = Cast<AActor>(GetOuter());
+	TSet<UActorComponent*> AllComponents = OwningActor->GetComponents();
+	for(UActorComponent* Component : AllComponents)
 	{
-		PrimaryEquipmentInstance->SpawnDisplayedActorsTo(Mesh);
+		if(USkeletalMeshComponent* DisplayingActorParentMesh = Cast<USkeletalMeshComponent>(Component))
+		{
+			PrimaryEquipmentInstance->SpawnDisplayedActorsTo(DisplayingActorParentMesh);
+		}
 	}
 
 	if(AbilitySystemComponent != nullptr)
@@ -50,8 +57,11 @@ UEquipmentInstance* UEquipmentComponent::UnEquip()
 	UEquipmentInstance* RemovedInstance = PrimaryEquipmentInstance;
 	if(RemovedInstance != nullptr)
 	{
+		if(AbilitySystemComponent)
+		{
+			RemovedInstance->TakeAbilitySystemFrom(AbilitySystemComponent);
+		}
 		RemovedInstance->DestroyDisplayedActors();
-		RemovedInstance->TakeAbilitySystemFrom(AbilitySystemComponent);
 		PrimaryEquipmentInstance = nullptr;
 		RemovedInstance->OnUnequipped();
 	}

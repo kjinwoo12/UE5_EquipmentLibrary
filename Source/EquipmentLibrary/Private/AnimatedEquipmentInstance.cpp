@@ -6,18 +6,24 @@
 
 void UAnimatedEquipmentInstance::OnEquipped(UEquipmentComponent* EquipmentComponent)
 {
-	AnimatedMeshes = EquipmentComponent->Meshes;
-	TagContainer = EquipmentComponent->GameplayTagContainer;
-
-	for(USkeletalMeshComponent* AnimatedMesh : AnimatedMeshes)
+	AActor* OwningActor = Cast<AActor>(GetOuter());
+	TSet<UActorComponent*> AllComponents = OwningActor->GetComponents();
+	AnimatedMeshes.Empty();
+	for(UActorComponent* Component : AllComponents)
 	{
-		TSubclassOf<UAnimInstance> AnimClass = EquippedAnimLayer.SelectBestLayer(AnimatedMesh, TagContainer);
-		if(AnimClass)
+		if(USkeletalMeshComponent* AnimatedMesh = Cast<USkeletalMeshComponent>(Component))
 		{
-			AnimatedMesh->LinkAnimClassLayers(AnimClass);
+			TSubclassOf<UAnimInstance> AnimClass = EquippedAnimLayer.SelectBestLayer(AnimatedMesh, TagContainer);
+			if(AnimClass)
+			{
+				AnimatedMesh->LinkAnimClassLayers(AnimClass);
+			}
+			AnimatedMesh->GetAnimInstance()->Montage_Play(EquipMontage);
+			AnimatedMeshes.Add(AnimatedMesh);
 		}
-		AnimatedMesh->GetAnimInstance()->Montage_Play(EquipMontage);
 	}
+
+	TagContainer = EquipmentComponent->GameplayTagContainer;
 
 	Super::OnEquipped(EquipmentComponent);
 }
@@ -26,6 +32,11 @@ void UAnimatedEquipmentInstance::OnUnequipped()
 {
 	for(USkeletalMeshComponent* AnimatedMesh : AnimatedMeshes)
 	{
+		if(!AnimatedMesh)
+		{
+			continue;
+		}
+
 		TSubclassOf<UAnimInstance> AnimClass = UnequippedAnimLayer.SelectBestLayer(AnimatedMesh, TagContainer);
 		if(AnimClass)
 		{
@@ -33,5 +44,6 @@ void UAnimatedEquipmentInstance::OnUnequipped()
 		}
 		AnimatedMesh->GetAnimInstance()->Montage_Play(UnequipMontage);
 	}
+	AnimatedMeshes.Empty();
 	Super::OnUnequipped();
 }
